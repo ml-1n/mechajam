@@ -1,6 +1,22 @@
+
 [gd_scene load_steps=3 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
+[ext_resource type="Texture2D" uid="uid://4xlgkkianof2" path="res://bitmaps/test_circle.png" id="2_fx6wp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n2w2w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fx6wp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_raixw"]
+radius = 345.326
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tu87u"]
 
@@ -8,8 +24,11 @@
 collision_mask = 15
 script = ExtResource("1_42v5j")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_n2w2w")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_tu87u")
+shape = SubResource("CircleShape2D_raixw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
