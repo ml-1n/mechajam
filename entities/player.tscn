@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgtxj7b2xo0qt"]
+[gd_scene load_steps=3 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_tu87u"]
+
+[node name="player" type="CharacterBody2D"]
+collision_mask = 15
 script = ExtResource("1_42v5j")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tu87u")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
