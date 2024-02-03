@@ -96,27 +96,26 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ogwfy"]
 size = Vector2(4, 20)
 
-[node name="Lasey" type="Node2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 15
 motion_mode = 1
 wall_min_slide_angle = 0.300197
+safe_margin = 1.0
 script = ExtResource("1_r8cph")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2, 8)
 sprite_frames = SubResource("SpriteFrames_k4yfd")
 frame_progress = 0.633189
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ogwfy")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="Timer" type="Timer" parent="CharacterBody2D"]
+[node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
 
-[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

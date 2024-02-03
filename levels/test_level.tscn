@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_mwdjt"]
 [ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_3yb3w"]
 [ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_u2wfx"]
-[ext_resource type="PackedScene" path="res://entities/lasey.tscn" id="5_4emqc"]
+[ext_resource type="PackedScene" uid="uid://5jew7aodqg6o" path="res://entities/lasey.tscn" id="5_4emqc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvpgn"]
 texture = ExtResource("1_528ct")
