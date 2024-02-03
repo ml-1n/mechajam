@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_mwdjt"]
 [ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_3yb3w"]
 [ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_u2wfx"]
-[ext_resource type="PackedScene" path="res://entities/lasey.tscn" id="5_4emqc"]
 [ext_resource type="PackedScene" uid="uid://bca070eov7c3f" path="res://ui/hud.tscn" id="6_hnvbq"]
+[ext_resource type="PackedScene" uid="uid://f102knmmtct1" path="res://entities/enemy_fly_bug.tscn" id="5_c2gj2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvpgn"]
 texture = ExtResource("1_528ct")
@@ -842,10 +842,7 @@ sources/2 = SubResource("TileSetAtlasSource_n56xv")
 
 [node name="Ground" type="Node2D" parent="."]
 
-[node name="TileMap" type="TileMap" parent="Ground"]
-format = 2
-
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap2" type="TileMap" parent="Ground"]
 tile_set = SubResource("TileSet_fkekx")
 format = 2
 layer_0/name = "Background"
@@ -860,21 +857,11 @@ position = Vector2(-184, -112)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Lasey" parent="Enemies" instance=ExtResource("5_4emqc")]
-position = Vector2(85, -205)
-
-[node name="Lasey2" parent="Enemies" instance=ExtResource("5_4emqc")]
-position = Vector2(-227, 143)
-
-[node name="Lasey3" parent="Enemies" instance=ExtResource("5_4emqc")]
-position = Vector2(-652, 35)
-
 [node name="HUD" parent="." instance=ExtResource("6_hnvbq")]
 
 [connection signal="health_change" from="player" to="HUD" method="_on_player_health_change"]
 [connection signal="just_dashed" from="player" to="HUD" method="_on_player_just_dashed"]
 [connection signal="just_shot" from="player" to="HUD" method="_on_player_just_shot"]
 
-[editable path="Enemies/Lasey"]
-[editable path="Enemies/Lasey2"]
-[editable path="Enemies/Lasey3"]
+[node name="EnemyFlyBug4" parent="Enemies" instance=ExtResource("5_c2gj2")]
+position = Vector2(-496, -138)
