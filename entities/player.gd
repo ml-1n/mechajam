@@ -1,58 +1,73 @@
 extends CharacterBody2D
 
-
-const BASE_SPEED = 300.0
-const DASH_SPEED = BASE_SPEED * 4
-const JUMP_VELOCITY = -400.0
-const PROJECTILE_TYPE = load("res://entities/projectile.tscn")
+const MOVE_SPEED = 300.0
+const DASH_SPEED = 4
+const JUMP_SPEED = -400.0
+const ACCELERATION = 0.05
+const FRICTION = 0.05
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var projectile_type = load("res://entities/bullet.tscn")
 
 
 func _physics_process(delta):
 
-	# process gravity
+	# process vertical gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
+		
+	# horizontal movement/sliding
+	var direction = Input.get_axis("move_left", "move_right")
+	
+	if direction && Input.is_action_just_pressed("action_dash"):
+			dash(direction)
+			
+	elif direction:
+			velocity.x = lerp(velocity.x, direction * MOVE_SPEED, ACCELERATION)
+			
+	else:
+		velocity.x = lerp(velocity.x, 0.0, FRICTION)
+		
+	move_and_slide()
 	
 func _input(event):
-		if event.is_action_pressed("move_left") || event.is_action_pressed("move_right"):
-			move()
-		
-		elif event.is_action_pressed("move_up"):
+			
+		if Input.is_action_pressed("move_up") && is_on_floor():
 			jump()
 			
-		if event.is_action_pressed("action_shoot"):
+		if Input.is_action_pressed("action_shoot"):
 			shoot()
 			
-		elif event.is_action_pressed("action_dash"):
-			dash()
+		elif Input.is_action_pressed("action_dash") && (Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")):
+			dash(Input.get_axis("move_left", "move_right"))
 	
 func shoot():
-	var projectile = PROJECTILE_TYPE.instantiate()
+	var projectile = projectile_type.instantiate()
+	var recoil = projectile.RECOIL
+	
+	var origin = global_position
+	var target = get_global_mouse_position()
+	var direction = origin.direction_to(target)
+	
+	projectile.position = global_position
+	projectile.direction = direction
+	
+	velocity += recoil * -direction
+	
+	
 	get_parent().call_deferred("add_child", projectile)
-	
-	# Recoil
-	
 	
 	
 func move():
-	var direction = Input.get_axis("move_left", "move_right")
-	if direction:
-		velocity.x = direction * BASE_SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, BASE_SPEED)
-	
 	move_and_slide()
 	
 func jump():
 	if is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_SPEED
 	
-	
-func dash():
+func dash(direction):
 	
 	# IFRAMES ON
-	move()
+	velocity.x += direction * 400
 	# IFRAMES OFF

@@ -2,20 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-<<<<<<< HEAD
-uid="uid://c6hyjukfe8qgc"
-=======
-uid="uid://b5mpsreu2w2xm"
->>>>>>> eab8aa5 (basic player functions)
-path="res://.godot/imported/mech_vector.png-92e6ab3e3d9e0707de4a35b13f508f98.ctex"
+uid="uid://bmtuqruf10ynw"
+path="res://.godot/imported/test_square.png-ee72d08f6c7adb9a41b31b57df352dd5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bitmaps/Sasha stuff/mech_vector.png"
-dest_files=["res://.godot/imported/mech_vector.png-92e6ab3e3d9e0707de4a35b13f508f98.ctex"]
+source_file="res://bitmaps/test_square.png"
+dest_files=["res://.godot/imported/test_square.png-ee72d08f6c7adb9a41b31b57df352dd5.ctex"]
 
 [params]
 

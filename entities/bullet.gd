@@ -1,19 +1,15 @@
 extends Area2D
 
 const BASE_SPEED = 400
-const RECOIL = 20
+const RECOIL = 200
 
 var direction
-var origin
-var target
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	origin = global_position
-	target = get_global_mouse_position()
-	direction = origin.direction_to(target)
-
+	pass
+	
 func _physics_process(delta):
 	position += direction * delta * BASE_SPEED
 	
