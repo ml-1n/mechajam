@@ -12,8 +12,8 @@ func _ready():
 func _process(delta):
 	pass
 	
-func _on_player_health_change(damage):
-	health_bar.change(damage)
+func _on_player_health_change(amount):
+	health_bar.change(amount)
 	
 func _on_player_just_dashed(time):
 	dash_bar.cooldown(time)
