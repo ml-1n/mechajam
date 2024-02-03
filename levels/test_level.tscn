@@ -862,26 +862,11 @@ position = Vector2(-184, -112)
 [node name="Lasey" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(85, -205)
 
-[node name="CharacterBody2D" parent="Enemies/Lasey" index="0"]
-health = null
-damage = null
-MOVE_SPEED = null
-
 [node name="Lasey2" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(-227, 143)
 
-[node name="CharacterBody2D" parent="Enemies/Lasey2" index="0"]
-health = null
-damage = null
-MOVE_SPEED = null
-
 [node name="Lasey3" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(-652, 35)
-
-[node name="CharacterBody2D" parent="Enemies/Lasey3" index="0"]
-health = null
-damage = null
-MOVE_SPEED = null
 
 [editable path="Enemies/Lasey"]
 [editable path="Enemies/Lasey2"]
