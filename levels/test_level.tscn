@@ -1,11 +1,11 @@
-<<<<<<< HEAD
-[gd_scene load_steps=12 format=3 uid="uid://hc8xcxb8b2dh"]
+[gd_scene load_steps=12 format=3 uid="uid://lp8bbppbaab2"]
 
 [ext_resource type="Texture2D" uid="uid://cibcbofuo1xf8" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Props/Factory_Props.png" id="1_528ct"]
 [ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_mwdjt"]
 [ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_3yb3w"]
 [ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_u2wfx"]
-[ext_resource type="PackedScene" uid="uid://5jew7aodqg6o" path="res://entities/lasey.tscn" id="5_4emqc"]
+[ext_resource type="PackedScene" path="res://entities/lasey.tscn" id="5_4emqc"]
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvpgn"]
 texture = ExtResource("1_528ct")
 0:0/0 = 0
@@ -842,13 +842,9 @@ sources/2 = SubResource("TileSetAtlasSource_n56xv")
 [node name="Ground" type="Node2D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="Ground"]
-
-[node name="player" parent="." instance=ExtResource("1_dg066")]
-position = Vector2(-236, -119)
-collision_mask = 15
+format = 2
 
 [node name="TileMap" type="TileMap" parent="."]
-
 tile_set = SubResource("TileSet_fkekx")
 format = 2
 layer_0/name = "Background"
@@ -858,28 +854,34 @@ layer_1/tile_data = PackedInt32Array()
 layer_2/name = "Foreground"
 layer_2/tile_data = PackedInt32Array()
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("4_u2wfx")]
-position = Vector2(-143, -59)
+[node name="player" parent="." instance=ExtResource("4_u2wfx")]
+position = Vector2(-184, -112)
 
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Lasey" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(85, -205)
 
-[node name="CharacterBody2D" parent="Enemies/Lasey" index="0" node_paths=PackedStringArray("player")]
-player = NodePath("../../../CharacterBody2D")
+[node name="CharacterBody2D" parent="Enemies/Lasey" index="0"]
+health = null
+damage = null
+MOVE_SPEED = null
 
 [node name="Lasey2" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(-227, 143)
 
-[node name="CharacterBody2D" parent="Enemies/Lasey2" index="0" node_paths=PackedStringArray("player")]
-player = NodePath("../../../CharacterBody2D")
+[node name="CharacterBody2D" parent="Enemies/Lasey2" index="0"]
+health = null
+damage = null
+MOVE_SPEED = null
 
 [node name="Lasey3" parent="Enemies" instance=ExtResource("5_4emqc")]
 position = Vector2(-652, 35)
 
-[node name="CharacterBody2D" parent="Enemies/Lasey3" index="0" node_paths=PackedStringArray("player")]
-player = NodePath("../../../CharacterBody2D")
+[node name="CharacterBody2D" parent="Enemies/Lasey3" index="0"]
+health = null
+damage = null
+MOVE_SPEED = null
 
 [editable path="Enemies/Lasey"]
 [editable path="Enemies/Lasey2"]
