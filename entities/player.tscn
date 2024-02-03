@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgtxj7b2xo0qt"]
+[gd_scene load_steps=7 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
 [ext_resource type="Texture2D" uid="uid://4xlgkkianof2" path="res://bitmaps/test_circle.png" id="2_fx6wp"]
+[ext_resource type="Texture2D" uid="uid://capui23e688s8" path="res://bitmaps/Sasha stuff/mech/mech_upright.png" id="3_pgg5f"]
+[ext_resource type="Texture2D" uid="uid://bc6qs553lxjix" path="res://bitmaps/Sasha stuff/mech/mech_squat.png" id="4_7ttq4"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n2w2w"]
 animations = [{
@@ -12,20 +14,36 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pgg5f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7ttq4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_raixw"]
-radius = 10.0499
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_py2mg"]
+size = Vector2(16, 28)
 
 [node name="player" type="CharacterBody2D"]
 collision_mask = 15
 script = ExtResource("1_42v5j")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3, -3)
+scale = Vector2(0.0696163, 0.0696163)
 sprite_frames = SubResource("SpriteFrames_n2w2w")
+animation = &"idle"
+frame_progress = 0.331927
+speed_scale = 0.25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_raixw")
+shape = SubResource("RectangleShape2D_py2mg")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true

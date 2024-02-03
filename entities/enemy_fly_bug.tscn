@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://f102knmmtct1"]
+
+[ext_resource type="Script" path="res://entities/enemy_fly_bug.gd" id="1_1w4gu"]
+[ext_resource type="Texture2D" uid="uid://btt8e1oqna61d" path="res://bitmaps/Sasha stuff/fly_bug/flybug_mouth_agape.png" id="2_276xa"]
+[ext_resource type="Texture2D" uid="uid://jwoidxhkjixg" path="res://bitmaps/Sasha stuff/fly_bug/flybug_wings_down.png" id="2_poy5i"]
+[ext_resource type="Texture2D" uid="uid://cvj3d1jaxxxhb" path="res://bitmaps/Sasha stuff/fly_bug/flybug_wings_up.png" id="3_wk8pg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_egbyj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_276xa")
+}],
+"loop": true,
+"name": &"bite",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_poy5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_wk8pg")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dj0lr"]
+
+[node name="EnemyFlyBug" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 15
+motion_mode = 1
+wall_min_slide_angle = 0.0
+safe_margin = 3.0
+script = ExtResource("1_1w4gu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -1)
+scale = Vector2(0.0814872, 0.0814872)
+sprite_frames = SubResource("SpriteFrames_egbyj")
+animation = &"bite"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dj0lr")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="NavTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="DeathTimer" type="Timer" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="timeout" from="NavTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
