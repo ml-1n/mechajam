@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=3 uid="uid://cctl7ch60onog"]
 
-[ext_resource type="Texture2D" uid="uid://cibcbofuo1xf8" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Props/Factory_Props.png" id="1_8eo0c"]
-[ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_ypmtd"]
-[ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_qpwmf"]
-[ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_kfris"]
-[ext_resource type="PackedScene" uid="uid://xxm0prcmpopn" path="res://entities/enemy_fly_bug.tscn" id="5_l0yrv"]
-[ext_resource type="PackedScene" uid="uid://bca070eov7c3f" path="res://ui/hud.tscn" id="6_08y6y"]
+[ext_resource type="Texture2D" uid="uid://cibcbofuo1xf8" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Props/Factory_Props.png" id="1_q1vnu"]
+[ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_s22ru"]
+[ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_goas6"]
+[ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_86j4t"]
+[ext_resource type="PackedScene" uid="uid://xxm0prcmpopn" path="res://entities/enemy_fly_bug.tscn" id="5_v7vit"]
+[ext_resource type="PackedScene" uid="uid://sa6kj6fmdcos" path="res://entities/pickup_health.tscn" id="6_ydpco"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvpgn"]
-texture = ExtResource("1_8eo0c")
+texture = ExtResource("1_q1vnu")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -121,7 +121,7 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lj278"]
-texture = ExtResource("2_ypmtd")
+texture = ExtResource("2_s22ru")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -498,7 +498,7 @@ texture = ExtResource("2_ypmtd")
 5:11/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n56xv"]
-texture = ExtResource("3_qpwmf")
+texture = ExtResource("3_goas6")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -838,7 +838,7 @@ sources/0 = SubResource("TileSetAtlasSource_qvpgn")
 sources/1 = SubResource("TileSetAtlasSource_lj278")
 sources/2 = SubResource("TileSetAtlasSource_n56xv")
 
-[node name="TestLevel2" type="Node2D"]
+[node name="LevelTest" type="Node2D"]
 
 [node name="Ground" type="Node2D" parent="."]
 
@@ -852,12 +852,15 @@ layer_1/tile_data = PackedInt32Array(65528, 196609, 0, 65529, 1, 0, 65530, 65537
 layer_2/name = "Foreground"
 layer_2/tile_data = PackedInt32Array()
 
-[node name="player" parent="." instance=ExtResource("4_kfris")]
-position = Vector2(-119, -26)
-
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="EnemyFlyBug" parent="Enemies" instance=ExtResource("5_l0yrv")]
+[node name="EnemyFlyBug" parent="Enemies" instance=ExtResource("5_v7vit")]
 position = Vector2(-258, -245)
 
-[node name="HUD" parent="." instance=ExtResource("6_08y6y")]
+[node name="Player" parent="." instance=ExtResource("4_86j4t")]
+position = Vector2(38, -64)
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="PickupHealth" parent="Pickups" instance=ExtResource("6_ydpco")]
+position = Vector2(112, -55)

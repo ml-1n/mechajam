@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://3ojf1um026nk"]
 
-[ext_resource type="Script" path="res://entities/Crawler.gd" id="1_w6w8q"]
+[ext_resource type="Script" path="res://entities/enemy_crawler.gd" id="1_w6w8q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ys4i2"]
 animations = [{

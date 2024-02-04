@@ -18,7 +18,7 @@ const MAX_HEALTH = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player = get_tree().current_scene.get_node("player")
+	player = get_tree().current_scene.get_node("Player")
 	health = MAX_HEALTH
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

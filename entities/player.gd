@@ -1,119 +1,61 @@
 extends CharacterBody2D
 
+# signals
 signal just_dashed
 signal just_shot
 signal health_change(amount)
+signal play_animation(name)
+signal flip_horizontal(boolean)
 
+# game stats
 const MOVE_SPEED = 300.0
-const DASH_MULT = 4.0
-const JUMP_SPEED = 450.0
+const DASH_DISTANCE = 8.0
+const JUMP_SPEED = 400.0
 const ACCELERATION = 0.2
 const FRICTION = 0.2
+const MAX_HEALTH = 100
+
+# cooldowns
 const DASH_COOLDOWN = 1.0
 const SHOOT_COOLDOWN = 0.25
-const CAN_DAMAGE_COOLDOWN = 1
 
-const MAX_HEALTH = 100
-var health
+# iframe durations
+const HARM_IFRAMES = 0.5
+const DASH_IFRAMES = 0.5
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var projectile_type = load("res://entities/bullet.tscn")
+@onready var projectile_type = load("res://entities/bullet.tscn")
 
-var can_shoot
-var can_dash
-var can_move
-var can_jump
-var can_damage
-var jumping
+@onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-var has_arms
-var has_legs
-var has_gun
+# limb switches
+@onready var has_arms = true
+@onready var has_legs = true
+@onready var has_gun = true
+@onready var has_dash = true
 
-var hud
+# action switches
+@onready var can_shoot = true
+@onready var can_dash = true
+@onready var can_move = true
+@onready var can_jump = true
+@onready var can_harm = true
+@onready var is_dashing = true
+@onready var is_jumping = false
 
-func _ready():
-	can_shoot = true
-	can_dash = true
-	can_move = true
-	can_jump = true
-	can_damage = true
-	
-	has_arms = true
-	has_legs = true
-	has_gun = true
-	
-	health = MAX_HEALTH
-	
-	hud = get_tree().current_scene.get_node("HUD")
-	
-# this is synced and checked per-frame
+# other parts to call
+@onready var hud = $HUD
+@onready var body = $AnimatedSprite2D
+@onready var legs = $Legs
+@onready var arms = $Arms
+@onready var gun = $Gun
+
+var health = MAX_HEALTH
+
 func _physics_process(delta):
-	var direction = get_direction()
-	
-
-	
-	# jumping input
-	if Input.is_action_just_pressed("action_jump") && is_on_floor() && can_jump && has_legs:
-		velocity.y += -JUMP_SPEED
-		jumping = true
-		$LegsSprite.play("jump")
-		$ArmsSprite.play("jump")
-		$BodySprite.play("jump")
-		
-	# landing on jump
-	elif is_on_floor() && jumping:
-		$LegsSprite.play("land")
-		$ArmsSprite.play("land")
-		$BodySprite.play("land")
-		jumping = false
-		
-	elif is_on_floor() && (Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")):
-		$LegsSprite.play("move")
-		$ArmsSprite.play("move")
-		$BodySprite.play("move")
-		
-	else:
-		$LegsSprite.play("idle")
-		$ArmsSprite.play("idle")
-		$BodySprite.play("idle")
-
-	
-	# shooting input		
-	if Input.is_action_just_pressed("action_shoot") && can_shoot && has_gun:
-		shoot()
-	
-	# dash input
-	if Input.is_action_just_pressed("action_dash") && direction && can_dash:
-		dash()
-	
-	# movement input
-	if direction && can_move && has_legs:
-		velocity.x = lerp(velocity.x, direction.x * MOVE_SPEED, ACCELERATION)
-	
-	else:
-		velocity.x = lerp(velocity.x, 0.0, FRICTION)
-		
-	# mouse input
-	$GunSprite.rotation = get_angle_to(get_global_mouse_position())
-	
-	if rad_to_deg(get_angle_to(get_global_mouse_position())) < -90:
-		$LegsSprite.flip_h = true
-		$ArmsSprite.flip_h = true
-		$BodySprite.flip_h = true
-		
-	else:
-		print(rad_to_deg(get_angle_to(get_global_mouse_position())))
-		$LegsSprite.flip_h = false
-		$ArmsSprite.flip_h = false
-		$BodySprite.flip_h = false
-		
-	# process gravity
-	if !is_on_floor():
-		velocity.y += gravity * delta
-
-	
+	check_health()
+	check_limbs()
+	do_input()
+	do_gravity(delta)
 	move_and_slide()
 	
 # this is checked only when input actually occurs. will perform better
@@ -122,35 +64,127 @@ func _unhandled_input(event):
 		# quit the game
 		if Input.is_action_just_pressed("ui_cancel"):
 			get_tree().quit()
-	
+
+func check_health():
+	if health <= 0:
+		# TODO INITIATE DEATH SCREEN HERE
+		pass
+	pass
+
 func check_limbs():
-	if !has_gun:
-		$Gun.disabled = true
+	match has_arms:
+		true:
+			arms.process_mode = Node.PROCESS_MODE_INHERIT
+			arms.visible = true
+		false:
+			arms.process_mode = Node.PROCESS_MODE_DISABLED
+			arms.visible = false
 		
-	if !has_legs:
-		$Legs.disabled = true
+	match has_legs:
+		true:
+			legs.process_mode = Node.PROCESS_MODE_INHERIT
+			legs.visible = true
+		false:
+			legs.process_mode = Node.PROCESS_MODE_DISABLED
+			legs.visible = false
 		
-	if !has_arms:
-		$Arms.disabled = false
+	match has_gun:
+		true:
+			gun.process_mode = Node.PROCESS_MODE_INHERIT
+			gun.visible = true
+		false:
+			gun.process_mode = Node.PROCESS_MODE_DISABLED
+			gun.visible = false
 		
-func shoot():
+	match has_dash:
+		true:
+			pass
+			#dash.process_mode = Node.PROCESS_MODE_INHERIT
+			#dash.visible = true
+		false:
+			pass
+			#dash.process_mode = Node.PROCESS_MODE_DISABLED
+			#dash.visible = false
+	
+#func play_animation(name: String):
+	#legs.play(name)
+	#arms.play(name)
+	#body.play(name)
+	#gun.play(name)
+	
+func do_input():
+	var direction = get_direction()
+	var mouse = get_global_mouse_position()
+	
+	# legs
+	if has_legs:
+		if Input.is_action_just_pressed("action_jump") && is_on_floor():
+			velocity.y -= JUMP_SPEED
+			is_jumping = true
+			emit_signal("play_animation", "jump")
+			
+		elif is_jumping && is_on_floor():
+			emit_signal("play_animation", "land")
+			is_jumping = false
+			
+		# movement
+		if direction:
+			velocity.x = lerp(velocity.x, direction.x * MOVE_SPEED, ACCELERATION)
+			
+			if Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"):
+				emit_signal("play_animation", "move")
+
+			else:
+				emit_signal("play_animation", "idle")
+		
+		# decelerate if no direction
+		else:
+			velocity.x = lerp(velocity.x, 0.0, FRICTION)
+			emit_signal("play_animation", "idle")
+		
+	# gun
+	if has_gun:
+		if Input.is_action_just_pressed("action_shoot"):
+			shoot(mouse)
+		
+		# mouse look
+		gun.rotation = get_angle_to(mouse)
+	
+	# dash
+	if has_dash:
+		if Input.is_action_just_pressed("action_dash") && direction:
+			dash(direction)
+			
+	# mouse flipping
+	if rad_to_deg(get_angle_to(mouse)) < -90:
+		emit_signal("flip_horizontal", true)
+		
+	else:
+		emit_signal("flip_horizontal", false)
+		
+
+func do_gravity(delta):
+	if !is_on_floor():
+		velocity.y += gravity * delta
+		
+func shoot(target):
 	
 	# end if no gun
-	if !has_gun:
+	if !can_shoot:
+		# TODO PLAY CAN'T SHOOT SOUND
 		return
-
+	
+	var muzzle = $Gun/ShootMark.global_position
+	var direction = muzzle.direction_to(target)
+	
+	# spawn projectile
 	var projectile = projectile_type.instantiate()
-	
-	var origin = $GunSprite/ShootMark.global_position
-	var target = get_global_mouse_position()
-	var direction = origin.direction_to(target)
-	
-	projectile.position = origin
+	projectile.position = muzzle
 	projectile.direction = direction
+	get_parent().call_deferred("add_child", projectile) # add to parent so it moves independently of the player
 	
-	velocity += projectile.RECOIL * -direction
-	
-	get_parent().call_deferred("add_child", projectile)
+	# apply recoil
+	velocity -= projectile.RECOIL * direction
 	
 	# start cooldown
 	can_shoot = false
@@ -158,31 +192,49 @@ func shoot():
 	emit_signal("just_shot", SHOOT_COOLDOWN)
 	
 	# play animation
-	$GunSprite.play("shoot")
+	emit_signal("play_animation", "shoot")
 
-# TODO clamp/normalize velocity (due to gravity), add iframes
-func dash():
+# TODO replace velocity with raw position jump
+func dash(direction):
 	
-	# in case we still have legs
-	#if !can_dash:
-		#return
-	var direction = get_direction()
+	# end if no dash. TODO is this always available? or just after losing limbs?
+	if !can_dash:
+		return
 	
-	velocity = direction * (MOVE_SPEED * DASH_MULT)
+	## animate the jump in position
+	#var tween = create_tween()
+	#tween.tween_property(self, "position", position * direction * DASH_DISTANCE, 0.1)
+	#
+	velocity = direction * (MOVE_SPEED * DASH_DISTANCE)
 	
 	# start cooldown
 	can_dash = false
-	#can_damage = false
 	get_tree().create_timer(DASH_COOLDOWN).timeout.connect(func(): can_dash = true)
+	
+	# start iframes
+	can_harm = false
+	get_tree().create_timer(DASH_IFRAMES).timeout.connect(func(): can_harm = true; velocity = Vector2.ZERO)
+	
 	emit_signal("just_dashed", DASH_COOLDOWN)
 	
-func take_damage(amount):
-	if can_damage:
-		health -= amount
-		emit_signal("health_change", amount)
-		print(health)
-		can_damage = false
-		get_tree().create_timer(CAN_DAMAGE_COOLDOWN).timeout.connect(func(): can_damage = true)
+func harm(amount):
+	
+	# end if in iframes
+	if !can_harm:
+		return
+		
+	# adjust health
+	health -= amount
+	
+	# start iframes
+	can_harm = false
+	get_tree().create_timer(HARM_IFRAMES).timeout.connect(func(): can_harm = true)
+	
+	emit_signal("health_change", -amount)
+	
+func heal(amount):
+	health += amount
+	emit_signal("health_change", amount)
 	
 func get_direction():
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
