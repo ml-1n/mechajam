@@ -13,7 +13,7 @@ navigation_layer_0/layers = 1
 
 [node name="Ground" type="Node2D" parent="."]
 
-[node name="TileMap2" type="TileMap" parent="Ground"]
+[node name="TileMap" type="TileMap" parent="Ground"]
 tile_set = SubResource("TileSet_fkekx")
 format = 2
 layer_0/name = "Background"

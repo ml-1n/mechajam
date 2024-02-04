@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://do3bmlb0i30pf"]
+
+[ext_resource type="Script" path="res://entities/goo_bullet.gd" id="1_vnl3t"]
+[ext_resource type="Texture2D" uid="uid://368wtnmqg0c5" path="res://bitmaps/Sasha stuff/projectiles/projectile_goo.png" id="2_mvwxg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6t41w"]
+
+[node name="GooBullet" type="Area2D"]
+collision_layer = 14
+collision_mask = 14
+script = ExtResource("1_vnl3t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-9, 2.38419e-07)
+rotation = 2.35619
+scale = Vector2(0.124279, 0.124279)
+texture = ExtResource("2_mvwxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.209172, 0.307575)
+shape = SubResource("CapsuleShape2D_6t41w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

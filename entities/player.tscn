@@ -1,3 +1,4 @@
+
 [gd_scene load_steps=21 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
@@ -161,6 +162,8 @@ collision_mask = 15
 script = ExtResource("1_42v5j")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -30)
+zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
 [node name="HUD" parent="." instance=ExtResource("5_06wil")]
