@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+signal just_dashed
+signal just_shot
+signal health_change
+
 const MOVE_SPEED = 300.0
 const DASH_MULT = 4.0
 const JUMP_SPEED = 450.0
@@ -8,14 +12,31 @@ const FRICTION = 0.2
 const DASH_COOLDOWN = 1.0
 const SHOOT_COOLDOWN = 0.25
 
+const MAX_HEALTH = 100
+var health
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var projectile_type = load("res://entities/bullet.tscn")
-var can_shoot = true
-var can_dash = true
-var can_move = true
-var can_jump = true
 
+var can_shoot
+var can_dash
+var can_move
+var can_jump
+var can_damage
+
+var hud
+
+func _ready():
+	can_shoot = true
+	can_dash = true
+	can_move = true
+	can_jump = true
+	can_damage = true
+	health = MAX_HEALTH
+	
+	hud = get_tree().current_scene.get_node("HUD")
+	
 # this is synced and checked per-frame
 func _physics_process(delta):
 	var direction = get_direction()
@@ -69,17 +90,24 @@ func shoot():
 	# start cooldown
 	can_shoot = false
 	get_tree().create_timer(SHOOT_COOLDOWN).timeout.connect(func(): can_shoot = true)
-	
+	emit_signal("just_shot", SHOOT_COOLDOWN)
+
+# TODO clamp/normalize velocity (due to gravity), add iframes
 func dash():
 	var direction = get_direction()
 	
-	# IFRAMES ON
 	velocity = direction * (MOVE_SPEED * DASH_MULT)
-	# IFRAMES OFF
 	
 	# start cooldown
 	can_dash = false
+	#can_damage = false
 	get_tree().create_timer(DASH_COOLDOWN).timeout.connect(func(): can_dash = true)
+	emit_signal("just_dashed", DASH_COOLDOWN)
+	
+func damage(amount):
+	if can_damage:
+		health -= amount
+		emit_signal("health_change", amount)
 	
 func get_direction():
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
