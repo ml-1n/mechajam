@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://jq2r2ds8h13u"
-path="res://.godot/imported/MachineGun.wav-4b3a5fad780ecea7c8486c68c7b7a992.sample"
+uid="uid://glk2mwmlow2v"
+path="res://.godot/imported/speyeder_spit.wav-d859ec93bc01977b10afd21edb9c70b0.sample"
 
 [deps]
 
-source_file="res://audio/MachineGun.wav"
-dest_files=["res://.godot/imported/MachineGun.wav-4b3a5fad780ecea7c8486c68c7b7a992.sample"]
+source_file="res://audio/speyeder_spit.wav"
+dest_files=["res://.godot/imported/speyeder_spit.wav-d859ec93bc01977b10afd21edb9c70b0.sample"]
 
 [params]
 
