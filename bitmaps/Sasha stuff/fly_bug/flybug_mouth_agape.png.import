@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://budajl51l2hq2"
-path="res://.godot/imported/mech_vector.png-92e6ab3e3d9e0707de4a35b13f508f98.ctex"
+uid="uid://fmon4si82g7v"
+path="res://.godot/imported/flybug_mouth_agape.png-7c5d04dc10938358a9f0c3eefc49557b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bitmaps/Sasha stuff/mech_vector.png"
-dest_files=["res://.godot/imported/mech_vector.png-92e6ab3e3d9e0707de4a35b13f508f98.ctex"]
+source_file="res://bitmaps/Sasha stuff/fly_bug/flybug_mouth_agape.png"
+dest_files=["res://.godot/imported/flybug_mouth_agape.png-7c5d04dc10938358a9f0c3eefc49557b.ctex"]
 
 [params]
 

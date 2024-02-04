@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://3ojf1um026nk"]
+
+[ext_resource type="Script" path="res://entities/enemy_crawler.gd" id="1_w6w8q"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ys4i2"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"crawl",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dj0lr"]
+
+[node name="Crawler" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 15
+motion_mode = 1
+wall_min_slide_angle = 0.0
+safe_margin = 3.0
+script = ExtResource("1_w6w8q")
+health = null
+damage = null
+MOVE_SPEED = null
+gravity_direction = null
+direction = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -1)
+scale = Vector2(0.0814872, 0.0814872)
+sprite_frames = SubResource("SpriteFrames_ys4i2")
+animation = &"crawl"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dj0lr")
+
+[node name="DeathTimer" type="Timer" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
