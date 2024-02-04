@@ -3,18 +3,21 @@ extends CharacterBody2D
 const ATTACK_LENGTH = 0.5
 const DEATH_LENGTH = .75
 const MAX_HEALTH = 100
+
 @export var health: int
 @export var damage = 30
-@export var MOVE_SPEED = 50
+@export var MOVE_SPEED = 40
+@export var gravity_direction = "down"
+@export var direction = 'right'
 
 @export var player: Node2D
-@onready var nav_agent := $NavigationAgent2D as NavigationAgent2D
-@onready var anim_sprite := $AnimatedSprite2D as AnimatedSprite2D
 
+@onready var anim_sprite = $AnimatedSprite2D
 @onready var attack_timer = $AttackTimer
 @onready var waiting = false
 @onready var harmful = false
 @onready var enemy = true
+@onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +28,8 @@ func _ready():
 func _physics_process(delta) -> void:
 	die_if_die()
 	check_attack()
-	navigate()
+	apply_gravity()
+	crawl()
 	var collision = move_and_collide(velocity * delta)
 	if collision && collision.get_collider() == player  && harmful:
 		player.take_damage(damage)
@@ -34,17 +38,38 @@ func _physics_process(delta) -> void:
 
 # MOVEMENT
 
+# For crawler i think ill just have them move back and forth on their particular platform
+# and stop and shoot when player is in sight
+# And ignore gravity, so they can be on the walls or ceiling (automatically orient? Or manually set?)
+
+# a function to translate text direction and return a Vector2 direction multiplier
+
+# Lin suggested to put a marker directly down on the sprite, and you get the gravity direction with direction_to
+# and this way it can be rotated in the editor to place it wherever and automatically make it stick
+
+# The last issue is making it not fall off ledges. I think I'll put a marker in front and down of it, that
+# checks if it is over a space tile. If it is not, it'll keep walking. If it is, it'll turn the other direction
+
 func navigate():
 	if !waiting:
-		anim_sprite.play("fly")
-		var dir = to_local(nav_agent.get_next_path_position()).normalized()
-		velocity = dir * MOVE_SPEED
+		anim_sprite.play("crawl")
+		#var dir = to_local(nav_agent.get_next_path_position()).normalized()
+		#velocity = dir * MOVE_SPEED
 	
-func make_path() -> void:
-	nav_agent.target_position = player.global_position
+func move_and_check_collision(delta):
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		velocity = Vector2(0,0)
 
-func _on_timer_timeout():
-	make_path()
+func apply_gravity():
+	pass
+
+func translate_direction(direction):
+	match direction:
+		"right": return Vector2(1,0)
+		"left": return Vector2(-1,0)
+		"down": return Vector2(0,1)
+		"up": return Vector2(0,-1)
 
 # ATTACKING
 
