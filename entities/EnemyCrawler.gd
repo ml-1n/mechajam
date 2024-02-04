@@ -7,32 +7,32 @@ const MAX_HEALTH = 100
 @export var health: int
 @export var damage = 30
 @export var MOVE_SPEED = 40
-@export var gravity_direction = "down"
-@export var direction = 'right'
 
 @export var player: Node2D
+@onready var tile_map:= $"../../Ground/TileMap" as TileMap 
 
 @onready var anim_sprite = $AnimatedSprite2D
 @onready var attack_timer = $AttackTimer
 @onready var waiting = false
 @onready var harmful = false
 @onready var enemy = true
-@onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var gravity = 50
+
+@onready var dow_mark = $DownMarker
+@onready var for_mark = $ForwardMarker
+@onready var fall_mark = $FallMarker
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player = get_tree().current_scene.get_node("player")
 	health = MAX_HEALTH
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta) -> void:
 	die_if_die()
 	check_attack()
-	apply_gravity()
-	crawl()
-	var collision = move_and_collide(velocity * delta)
-	if collision && collision.get_collider() == player  && harmful:
-		player.take_damage(damage)
+	crawl(delta)
 
 
 
@@ -50,38 +50,65 @@ func _physics_process(delta) -> void:
 # The last issue is making it not fall off ledges. I think I'll put a marker in front and down of it, that
 # checks if it is over a space tile. If it is not, it'll keep walking. If it is, it'll turn the other direction
 
-func navigate():
+# I will do this. Apply gravity via down marker. Go forward via forward marker. Check for collisions with forward marker
+# With Fall marker check for ledges
+
+# okay current problem is that i need to both set the x with formark and y with downmark
+
+func crawl(delta):
+	apply_gravity()
 	if !waiting:
 		anim_sprite.play("crawl")
-		#var dir = to_local(nav_agent.get_next_path_position()).normalized()
-		#velocity = dir * MOVE_SPEED
-	
-func move_and_check_collision(delta):
-	var collision = move_and_collide(velocity * delta)
-	if collision:
-		velocity = Vector2(0,0)
+		move_checks()
+		velocity += global_position.direction_to(for_mark.global_position).normalized() * MOVE_SPEED
+		move_and_slide()
 
 func apply_gravity():
-	pass
+	velocity = global_position.direction_to(dow_mark.global_position).normalized() * gravity
 
-func translate_direction(direction):
-	match direction:
-		"right": return Vector2(1,0)
-		"left": return Vector2(-1,0)
-		"down": return Vector2(0,1)
-		"up": return Vector2(0,-1)
+func move_checks():
+	# First check if we are about to bump into something
+	# var the forward marker's global position
+	# compare it to the tile at that global position
+	# if that tile has collision? Maybe if its on layer 1, the playground layer
+	# then turn around
+	var for_mark_tile = tile_map.local_to_map(tile_map.to_local(for_mark.global_position))
+	var for_data = tile_map.get_cell_tile_data(1, for_mark_tile)
+	print("for tile")
+	print(for_data)
+	
+	var fall_mark_tile = tile_map.local_to_map(tile_map.to_local(fall_mark.global_position))
+	var fall_data = tile_map.get_cell_tile_data(1, fall_mark_tile)
+	print("fall tile")
+	print(fall_data)
+	
+	if for_data || !fall_data:
+		print("turning")
+		turn_around()
+		print("fall marker")
+		print(fall_mark.position)
+		print("forw marker")
+		print(for_mark.position)
+	# Then check if we're about to fall off a ledge
+	# var the fall marker's global position
+	# compare it to the tile at that global position
+	# if that tile has collision? Maybe if it is NOT on layer 1, the playground layer
+	# then turn around
+
+#okay why is it not working
+# its not finding the tile on playground layer, but it IS finding the tiles on Background layer
+# why? lets try tracking the position of the marks?
+
+func turn_around():
+	for_mark.position = for_mark.position * Vector2(-1,1)
+	fall_mark.position = fall_mark.position * Vector2(-1,1)
+	anim_sprite.flip_h
 
 # ATTACKING
 
 func check_attack():
 	# Checks if it can attack, have to be in range of the player
-	if global_position.distance_to(player.global_position) < 100 && waiting == false:
-		anim_sprite.play("fly")
-		print("in range")
-		waiting = true
-		$AttackTimer.start()
-		# If yes, backs up a little, waits till Attack Timer is 0, then attacks
-		velocity = position.direction_to(player.global_position) * -10
+	pass
 
 
 func attack():
@@ -110,6 +137,5 @@ func die_if_die():
 		anim_sprite.play("die")
 
 func _on_attack_timer_timeout():
-	print('attacking')
 	attack()
 	

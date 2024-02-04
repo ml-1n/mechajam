@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgtxj7b2xo0qt"]
+[gd_scene load_steps=7 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
 [ext_resource type="Texture2D" uid="uid://4xlgkkianof2" path="res://bitmaps/test_circle.png" id="2_fx6wp"]
 [ext_resource type="Texture2D" uid="uid://capui23e688s8" path="res://bitmaps/Sasha stuff/mech/mech_upright.png" id="3_pgg5f"]
 [ext_resource type="Texture2D" uid="uid://bc6qs553lxjix" path="res://bitmaps/Sasha stuff/mech/mech_squat.png" id="4_7ttq4"]
-[ext_resource type="PackedScene" uid="uid://bca070eov7c3f" path="res://ui/hud.tscn" id="5_06wil"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n2w2w"]
 animations = [{
@@ -47,10 +46,6 @@ speed_scale = 0.25
 shape = SubResource("RectangleShape2D_py2mg")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -30)
+zoom = Vector2(3, 3)
 position_smoothing_enabled = true
-
-[node name="HUD" parent="." instance=ExtResource("5_06wil")]
-
-[connection signal="health_change" from="." to="HUD" method="_on_player_health_change" binds= [0.0]]
-[connection signal="just_dashed" from="." to="HUD" method="_on_player_just_dashed"]
-[connection signal="just_shot" from="." to="HUD" method="_on_player_just_shot"]
