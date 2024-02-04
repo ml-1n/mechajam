@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://lp8bbppbaab2"]
 
 [ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_u2wfx"]
-[ext_resource type="PackedScene" uid="uid://xxm0prcmpopn" path="res://entities/enemy_fly_bug.tscn" id="5_c2gj2"]
+[ext_resource type="PackedScene" uid="uid://f102knmmtct1" path="res://entities/enemy_fly_bug.tscn" id="5_c2gj2"]
 [ext_resource type="PackedScene" uid="uid://bca070eov7c3f" path="res://ui/hud.tscn" id="6_hnvbq"]
 
 [sub_resource type="TileSet" id="TileSet_fkekx"]

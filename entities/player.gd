@@ -25,11 +25,6 @@ var can_dash
 var can_move
 var can_jump
 var can_damage
-var jumping
-
-var has_arms
-var has_legs
-var has_gun
 
 var hud
 
@@ -39,11 +34,6 @@ func _ready():
 	can_move = true
 	can_jump = true
 	can_damage = true
-	
-	has_arms = true
-	has_legs = true
-	has_gun = true
-	
 	health = MAX_HEALTH
 	
 	hud = get_tree().current_scene.get_node("HUD")
@@ -52,36 +42,12 @@ func _ready():
 func _physics_process(delta):
 	var direction = get_direction()
 	
-
-	
 	# jumping input
-	if Input.is_action_just_pressed("action_jump") && is_on_floor() && can_jump && has_legs:
+	if Input.is_action_just_pressed("action_jump") && is_on_floor() && can_jump:
 		velocity.y += -JUMP_SPEED
-		jumping = true
-		$LegsSprite.play("jump")
-		$ArmsSprite.play("jump")
-		$BodySprite.play("jump")
-		
-	# landing on jump
-	elif is_on_floor() && jumping:
-		$LegsSprite.play("land")
-		$ArmsSprite.play("land")
-		$BodySprite.play("land")
-		jumping = false
-		
-	elif is_on_floor() && (Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")):
-		$LegsSprite.play("move")
-		$ArmsSprite.play("move")
-		$BodySprite.play("move")
-		
-	else:
-		$LegsSprite.play("idle")
-		$ArmsSprite.play("idle")
-		$BodySprite.play("idle")
-
 	
 	# shooting input		
-	if Input.is_action_just_pressed("action_shoot") && can_shoot && has_gun:
+	if Input.is_action_just_pressed("action_shoot") && can_shoot:
 		shoot()
 	
 	# dash input
@@ -89,30 +55,15 @@ func _physics_process(delta):
 		dash()
 	
 	# movement input
-	if direction && can_move && has_legs:
+	if direction && can_move:
 		velocity.x = lerp(velocity.x, direction.x * MOVE_SPEED, ACCELERATION)
 	
 	else:
 		velocity.x = lerp(velocity.x, 0.0, FRICTION)
 		
-	# mouse input
-	$GunSprite.rotation = get_angle_to(get_global_mouse_position())
-	
-	if rad_to_deg(get_angle_to(get_global_mouse_position())) < -90:
-		$LegsSprite.flip_h = true
-		$ArmsSprite.flip_h = true
-		$BodySprite.flip_h = true
-		
-	else:
-		print(rad_to_deg(get_angle_to(get_global_mouse_position())))
-		$LegsSprite.flip_h = false
-		$ArmsSprite.flip_h = false
-		$BodySprite.flip_h = false
-		
 	# process gravity
 	if !is_on_floor():
 		velocity.y += gravity * delta
-
 	
 	move_and_slide()
 	
@@ -123,29 +74,14 @@ func _unhandled_input(event):
 		if Input.is_action_just_pressed("ui_cancel"):
 			get_tree().quit()
 	
-func check_limbs():
-	if !has_gun:
-		$Gun.disabled = true
-		
-	if !has_legs:
-		$Legs.disabled = true
-		
-	if !has_arms:
-		$Arms.disabled = false
-		
 func shoot():
-	
-	# end if no gun
-	if !has_gun:
-		return
-
 	var projectile = projectile_type.instantiate()
 	
-	var origin = $GunSprite/ShootMark.global_position
+	var origin = global_position
 	var target = get_global_mouse_position()
 	var direction = origin.direction_to(target)
 	
-	projectile.position = origin
+	projectile.position = global_position
 	projectile.direction = direction
 	
 	velocity += projectile.RECOIL * -direction
@@ -156,16 +92,9 @@ func shoot():
 	can_shoot = false
 	get_tree().create_timer(SHOOT_COOLDOWN).timeout.connect(func(): can_shoot = true)
 	emit_signal("just_shot", SHOOT_COOLDOWN)
-	
-	# play animation
-	$GunSprite.play("shoot")
 
 # TODO clamp/normalize velocity (due to gravity), add iframes
 func dash():
-	
-	# in case we still have legs
-	#if !can_dash:
-		#return
 	var direction = get_direction()
 	
 	velocity = direction * (MOVE_SPEED * DASH_MULT)
