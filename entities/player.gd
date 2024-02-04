@@ -11,6 +11,7 @@ const ACCELERATION = 0.2
 const FRICTION = 0.2
 const DASH_COOLDOWN = 1.0
 const SHOOT_COOLDOWN = 0.25
+const CAN_DAMAGE_COOLDOWN = 1
 
 const MAX_HEALTH = 100
 var health
@@ -104,10 +105,13 @@ func dash():
 	get_tree().create_timer(DASH_COOLDOWN).timeout.connect(func(): can_dash = true)
 	emit_signal("just_dashed", DASH_COOLDOWN)
 	
-func damage(amount):
+func take_damage(amount):
 	if can_damage:
 		health -= amount
 		emit_signal("health_change", amount)
+		print(health)
+		can_damage = false
+		get_tree().create_timer(CAN_DAMAGE_COOLDOWN).timeout.connect(func(): can_damage = true)
 	
 func get_direction():
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
