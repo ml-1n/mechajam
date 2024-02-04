@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bca070eov7c3f"]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_r10hy"]
-[ext_resource type="Script" path="res://ui/HealthBar.gd" id="2_8deae"]
-[ext_resource type="Script" path="res://ui/ShootBar.gd" id="3_x75q2"]
-[ext_resource type="Script" path="res://ui/DashBar.gd" id="4_jjee7"]
+[ext_resource type="Script" path="res://ui/bar_health.gd" id="2_dsrps"]
+[ext_resource type="Script" path="res://ui/bar_shoot.gd" id="3_4slpv"]
+[ext_resource type="Script" path="res://ui/bar_dash.gd" id="4_mvray"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_r10hy")
@@ -19,7 +19,7 @@ offset_top = -40.0
 offset_right = 99.0
 grow_horizontal = 2
 grow_vertical = 0
-script = ExtResource("2_8deae")
+script = ExtResource("2_dsrps")
 
 [node name="ShootBar" type="ProgressBar" parent="."]
 anchors_preset = 2
@@ -28,7 +28,7 @@ anchor_bottom = 1.0
 offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
-script = ExtResource("3_x75q2")
+script = ExtResource("3_4slpv")
 
 [node name="DashBar" type="ProgressBar" parent="."]
 anchors_preset = 3
@@ -40,4 +40,4 @@ offset_left = -40.0
 offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
-script = ExtResource("4_jjee7")
+script = ExtResource("4_mvray")

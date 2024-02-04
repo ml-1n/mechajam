@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="mechajam"
-run/main_scene="res://levels/test_level_2.tscn"
+run/main_scene="res://levels/level_test.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -60,3 +60,8 @@ action_jump={
 2d_physics/layer_2="walls"
 2d_physics/layer_3="enemies"
 2d_physics/layer_4="bullets"
+2d_physics/layer_5="pickups"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

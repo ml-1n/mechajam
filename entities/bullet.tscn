@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bddexdv71f7c3"]
+[gd_scene load_steps=4 format=3 uid="uid://m18ev38i10qj"]
 
 [ext_resource type="Script" path="res://entities/bullet.gd" id="1_ma33e"]
 [ext_resource type="Texture2D" uid="uid://u0doxl3102oo" path="res://bitmaps/Sasha stuff/projectiles/projectile_energy_ball.png" id="2_kp31h"]
@@ -7,8 +7,8 @@
 size = Vector2(8, 8)
 
 [node name="bullet" type="Area2D"]
-collision_layer = 14
-collision_mask = 14
+collision_layer = 8
+collision_mask = 6
 script = ExtResource("1_ma33e")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

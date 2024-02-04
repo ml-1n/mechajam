@@ -1,7 +1,7 @@
 extends Area2D
 
 const SPEED = 400
-const RECOIL = 400
+const RECOIL = 600
 const DAMAGE = 100
 
 var direction
@@ -17,7 +17,9 @@ func _physics_process(delta):
 func _process(delta):
 	pass
 
+
 func _on_body_entered(body):
-	if body is CharacterBody2D:
+	#If the node of the body is under the Enemies node, then it is an enemy.
+	if body is CharacterBody2D && body.enemy:
 		body.take_damage(DAMAGE)
 	queue_free()
