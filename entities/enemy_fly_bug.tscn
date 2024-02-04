@@ -15,6 +15,11 @@ animations = [{
 "name": &"bite",
 "speed": 5.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_poy5i")
@@ -41,7 +46,7 @@ script = ExtResource("1_1w4gu")
 position = Vector2(1, -1)
 scale = Vector2(0.0814872, 0.0814872)
 sprite_frames = SubResource("SpriteFrames_egbyj")
-animation = &"bite"
+animation = &"die"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_dj0lr")
