@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 const ATTACK_LENGTH = 0.5
-@export var health = 100
+const MAX_HEALTH = 100
+@export var health: int
 @export var damage = 30
 @export var MOVE_SPEED = 50
 
@@ -12,10 +13,12 @@ const ATTACK_LENGTH = 0.5
 @onready var attack_timer = $AttackTimer
 @onready var attacking = false
 @onready var harmful = false
+@onready var enemy = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player = get_tree().current_scene.get_node("player")
+	health = MAX_HEALTH
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta) -> void:
@@ -23,7 +26,7 @@ func _physics_process(delta) -> void:
 	check_attack()
 	navigate()
 	var collision = move_and_collide(velocity * delta)
-	if collision && harmful:
+	if collision && collision.get_collider() == player  && harmful:
 		player.take_damage(damage)
 
 
@@ -65,8 +68,8 @@ func attack():
 	harmful = true
 
 
-func take_damage():
-	pass
+func take_damage(damage):
+	health += -damage
 
 # Dying
 func die_if_die():
