@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgtxj7b2xo0qt"]
+[gd_scene load_steps=21 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
 [ext_resource type="Texture2D" uid="uid://bb0u20b0hvisk" path="res://bitmaps/Sasha stuff/mech/mech_legs_idle.png" id="3_bnkg0"]
+[ext_resource type="Texture2D" uid="uid://da4vwsv0qi4oc" path="res://bitmaps/Sasha stuff/gun/gun_idle.png" id="3_j8sxi"]
 [ext_resource type="Texture2D" uid="uid://tgwdj5jj1ica" path="res://bitmaps/Sasha stuff/mech/mech_legs_squat.png" id="4_lkvki"]
+[ext_resource type="Texture2D" uid="uid://d1n1sxmtkff40" path="res://bitmaps/Sasha stuff/gun/gun_shooting.png" id="4_o3557"]
 [ext_resource type="PackedScene" uid="uid://bca070eov7c3f" path="res://ui/hud.tscn" id="5_06wil"]
 [ext_resource type="Texture2D" uid="uid://ccevawd3g85q2" path="res://bitmaps/Sasha stuff/mech/mech_legs_jump.png" id="5_kftn6"]
 [ext_resource type="Texture2D" uid="uid://bbpkxby742e5v" path="res://bitmaps/Sasha stuff/mech/mech_body_idle.png" id="6_e08o5"]
@@ -11,6 +13,28 @@
 [ext_resource type="Texture2D" uid="uid://dsaxqwfdxkrri" path="res://bitmaps/Sasha stuff/mech/mech_arms_idle.png" id="9_065rh"]
 [ext_resource type="Texture2D" uid="uid://cmyrv8q2j8x4x" path="res://bitmaps/Sasha stuff/mech/mech_arms_squat.png" id="10_qt587"]
 [ext_resource type="Texture2D" uid="uid://vsb6xshw5xds" path="res://bitmaps/Sasha stuff/mech/mech_arms_jump.png" id="11_5jods"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6v2u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_j8sxi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_o3557")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_j8sxi")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 5.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n5qj6"]
 animations = [{
@@ -42,6 +66,17 @@ animations = [{
 }],
 "loop": false,
 "name": &"land",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bnkg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lkvki")
+}],
+"loop": true,
+"name": &"move",
 "speed": 5.0
 }]
 
@@ -130,9 +165,21 @@ position_smoothing_enabled = true
 
 [node name="HUD" parent="." instance=ExtResource("5_06wil")]
 
+[node name="GunSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-30, -200)
+rotation = -6.28319
+scale = Vector2(1, 1)
+sprite_frames = SubResource("SpriteFrames_m6v2u")
+animation = &"idle"
+offset = Vector2(67.625, 27.995)
+
+[node name="ShootMark" type="Marker2D" parent="GunSprite"]
+position = Vector2(190.975, 0)
+
 [node name="LegsSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n5qj6")
-animation = &"idle"
+animation = &"move"
+frame_progress = 0.732056
 
 [node name="BodySprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6fmwu")
@@ -141,8 +188,6 @@ animation = &"idle"
 [node name="ArmsSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_k2vyh")
 animation = &"idle"
-
-[node name="GunSprite" type="AnimatedSprite2D" parent="."]
 
 [node name="Legs" type="CollisionShape2D" parent="."]
 position = Vector2(-36.75, 165.5)

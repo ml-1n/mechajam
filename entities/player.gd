@@ -68,6 +68,16 @@ func _physics_process(delta):
 		$ArmsSprite.play("land")
 		$BodySprite.play("land")
 		jumping = false
+		
+	elif is_on_floor() && (Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")):
+		$LegsSprite.play("move")
+		$ArmsSprite.play("move")
+		$BodySprite.play("move")
+		
+	else:
+		$LegsSprite.play("idle")
+		$ArmsSprite.play("idle")
+		$BodySprite.play("idle")
 
 	
 	# shooting input		
@@ -85,7 +95,19 @@ func _physics_process(delta):
 	else:
 		velocity.x = lerp(velocity.x, 0.0, FRICTION)
 		
-	# TODO Mouse input
+	# mouse input
+	$GunSprite.rotation = get_angle_to(get_global_mouse_position())
+	
+	if rad_to_deg(get_angle_to(get_global_mouse_position())) < -90:
+		$LegsSprite.flip_h = true
+		$ArmsSprite.flip_h = true
+		$BodySprite.flip_h = true
+		
+	else:
+		print(rad_to_deg(get_angle_to(get_global_mouse_position())))
+		$LegsSprite.flip_h = false
+		$ArmsSprite.flip_h = false
+		$BodySprite.flip_h = false
 		
 	# process gravity
 	if !is_on_floor():
@@ -116,14 +138,14 @@ func shoot():
 	# end if no gun
 	if !has_gun:
 		return
-	
+
 	var projectile = projectile_type.instantiate()
 	
-	var origin = global_position
+	var origin = $GunSprite/ShootMark.global_position
 	var target = get_global_mouse_position()
 	var direction = origin.direction_to(target)
 	
-	projectile.position = global_position
+	projectile.position = origin
 	projectile.direction = direction
 	
 	velocity += projectile.RECOIL * -direction
@@ -134,6 +156,9 @@ func shoot():
 	can_shoot = false
 	get_tree().create_timer(SHOOT_COOLDOWN).timeout.connect(func(): can_shoot = true)
 	emit_signal("just_shot", SHOOT_COOLDOWN)
+	
+	# play animation
+	$GunSprite.play("shoot")
 
 # TODO clamp/normalize velocity (due to gravity), add iframes
 func dash():
