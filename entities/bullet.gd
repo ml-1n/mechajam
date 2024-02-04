@@ -19,4 +19,7 @@ func _process(delta):
 
 
 func _on_body_entered(body):
+	#If the node of the body is under the Enemies node, then it is an enemy.
+	if body is CharacterBody2D:
+		body.take_damage(DAMAGE)
 	queue_free()

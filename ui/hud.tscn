@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://bca070eov7c3f"]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_r10hy"]
+[ext_resource type="Script" path="res://ui/HealthBar.gd" id="2_8deae"]
+[ext_resource type="Script" path="res://ui/ShootBar.gd" id="3_x75q2"]
+[ext_resource type="Script" path="res://ui/DashBar.gd" id="4_jjee7"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_r10hy")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -99.0
+offset_top = -40.0
+offset_right = 99.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("2_8deae")
+
+[node name="ShootBar" type="ProgressBar" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("3_x75q2")
+
+[node name="DashBar" type="ProgressBar" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("4_jjee7")
