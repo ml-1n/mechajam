@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+const ATTACK_LENGTH = 0.5
 @export var health = 100
 @export var damage = 30
 @export var MOVE_SPEED = 50
@@ -17,11 +18,14 @@ func _ready():
 	player = get_tree().current_scene.get_node("player")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(_delta) -> void:
+func _physics_process(delta) -> void:
 	die_if_die()
 	check_attack()
 	navigate()
-	move_and_slide()
+	var collision = move_and_collide(velocity * delta)
+	if collision && harmful:
+		player.take_damage(damage)
+
 
 
 # Move stuff
@@ -42,28 +46,29 @@ func _on_timer_timeout():
 func check_attack():
 	# Checks if it can attack, have to be in range of the player
 	if global_position.distance_to(player.global_position) < 100 && attacking == false:
+		anim_sprite.play("fly")
 		print("in range")
 		attacking = true
 		$AttackTimer.start()
 		# If yes, backs up a little, waits till Attack Timer is 0, then attacks
-		if $AttackTimer.time_left <= 0.0:
-			print('attacking')
-			attack()
-		else:
-			velocity = position.direction_to(player.global_position) * -10
+		velocity = position.direction_to(player.global_position) * -10
 
 
 func attack():
+	#makes a timer, during this time it is attacking
+	get_tree().create_timer(ATTACK_LENGTH).timeout.connect(func(): attacking = false ; harmful = false )
 	# Changes animation to the bitey sprite
 	anim_sprite.play("bite")
 	# Sets velocity to charge at player at high speed
 	velocity = position.direction_to(player.global_position) * 200
-	# Sets self to harmful (and player is set to take damage if they hit something with the harmful variable.
+	#if collides with player, damage
+	harmful = true
+
+
+func take_damage():
 	pass
 
-
-	# Dying
-	
+# Dying
 func die_if_die():
 	# Not complete but the idea is that it checks if dead, if dead, stops movement/actions
 	# plays death animation, and then queue_frees itself a second after the animation is done
@@ -73,6 +78,7 @@ func die_if_die():
 		# then it would ativate the death timer, to ensure like, a cool paced death
 		queue_free()
 
-
 func _on_attack_timer_timeout():
-	attacking = false
+	print('attacking')
+	attack()
+	

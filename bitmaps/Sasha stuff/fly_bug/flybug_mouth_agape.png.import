@@ -2,13 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-<<<<<<< HEAD:bitmaps/Sasha stuff/mech_vector.png.import
-uid="uid://dy4d5cfposquj"
-path="res://.godot/imported/mech_vector.png-92e6ab3e3d9e0707de4a35b13f508f98.ctex"
-=======
-uid="uid://btt8e1oqna61d"
+uid="uid://fmon4si82g7v"
 path="res://.godot/imported/flybug_mouth_agape.png-7c5d04dc10938358a9f0c3eefc49557b.ctex"
->>>>>>> master:bitmaps/Sasha stuff/fly_bug/flybug_mouth_agape.png.import
 metadata={
 "vram_texture": false
 }
