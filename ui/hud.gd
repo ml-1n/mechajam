@@ -13,6 +13,7 @@ func _process(delta):
 	pass
 	
 func _on_player_health_change(amount):
+	print("Reducing HUD health by " + str(amount))
 	health_bar.change(amount)
 	
 func _on_player_just_dashed(time):

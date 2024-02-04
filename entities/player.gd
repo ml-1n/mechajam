@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 signal just_dashed
 signal just_shot
-signal health_change
+signal health_change(amount)
 
 const MOVE_SPEED = 300.0
 const DASH_MULT = 4.0
