@@ -1,4 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://cctl7ch60onog"]
+
+[gd_scene load_steps=14 format=3 uid="uid://cctl7ch60onog"]
+
 
 [ext_resource type="Texture2D" uid="uid://cibcbofuo1xf8" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Props/Factory_Props.png" id="1_q1vnu"]
 [ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_s22ru"]
