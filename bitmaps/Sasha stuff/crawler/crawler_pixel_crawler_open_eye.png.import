@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnrtqyaiggiun"
-path="res://.godot/imported/crawler_vector_walking.png-a0bdd6707b8e0fc93e5caef3f207d964.ctex"
+uid="uid://dkeb2vwhw0t6i"
+path="res://.godot/imported/crawler_pixel_crawler_open_eye.png-fc7a3f03fbc2b1241d1c2953dffe467f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bitmaps/Sasha stuff/crawler/crawler_vector_walking.png"
-dest_files=["res://.godot/imported/crawler_vector_walking.png-a0bdd6707b8e0fc93e5caef3f207d964.ctex"]
+source_file="res://bitmaps/Sasha stuff/crawler/crawler_pixel_crawler_open_eye.png"
+dest_files=["res://.godot/imported/crawler_pixel_crawler_open_eye.png-fc7a3f03fbc2b1241d1c2953dffe467f.ctex"]
 
 [params]
 

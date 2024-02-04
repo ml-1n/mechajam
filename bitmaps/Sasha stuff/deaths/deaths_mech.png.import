@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnrtqyaiggiun"
-path="res://.godot/imported/crawler_vector_walking.png-a0bdd6707b8e0fc93e5caef3f207d964.ctex"
+uid="uid://d01lo5mkoa5np"
+path="res://.godot/imported/deaths_mech.png-401c4a936c9a56e8a69dad609fdd966e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://bitmaps/Sasha stuff/crawler/crawler_vector_walking.png"
-dest_files=["res://.godot/imported/crawler_vector_walking.png-a0bdd6707b8e0fc93e5caef3f207d964.ctex"]
+source_file="res://bitmaps/Sasha stuff/deaths/deaths_mech.png"
+dest_files=["res://.godot/imported/deaths_mech.png-401c4a936c9a56e8a69dad609fdd966e.ctex"]
 
 [params]
 
