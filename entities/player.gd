@@ -57,6 +57,7 @@ func _physics_process(delta):
 	do_input()
 	do_gravity(delta)
 	move_and_slide()
+	print(health)
 	
 # this is checked only when input actually occurs. will perform better
 func _unhandled_input(event):

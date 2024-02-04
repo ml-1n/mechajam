@@ -19,5 +19,5 @@ func _process(delta):
 
 func _on_body_entered(body):
 	if body is CharacterBody2D:
-		body.take_damage(DAMAGE)
+		body.harm(DAMAGE)
 	queue_free()

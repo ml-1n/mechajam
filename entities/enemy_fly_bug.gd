@@ -28,7 +28,7 @@ func _physics_process(delta) -> void:
 	navigate()
 	var collision = move_and_collide(velocity * delta)
 	if collision && collision.get_collider() == player  && harmful:
-		player.take_damage(damage)
+		player.harm(damage)
 
 
 
@@ -52,7 +52,6 @@ func check_attack():
 	# Checks if it can attack, have to be in range of the player
 	if global_position.distance_to(player.global_position) < 100 && waiting == false:
 		anim_sprite.play("fly")
-		print("in range")
 		waiting = true
 		$AttackTimer.start()
 		# If yes, backs up a little, waits till Attack Timer is 0, then attacks
@@ -71,7 +70,7 @@ func attack():
 
 # DAMAGE AND DYING
 
-func take_damage(damage):
+func harm(damage):
 	health += -damage
 
 func die_if_die():
@@ -85,6 +84,5 @@ func die_if_die():
 		anim_sprite.play("die")
 
 func _on_attack_timer_timeout():
-	print('attacking')
 	attack()
 	
