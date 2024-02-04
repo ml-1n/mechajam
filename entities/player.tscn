@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dgtxj7b2xo0qt"]
+[gd_scene load_steps=21 format=3 uid="uid://dgtxj7b2xo0qt"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_42v5j"]
 [ext_resource type="Texture2D" uid="uid://bb0u20b0hvisk" path="res://bitmaps/Sasha stuff/mech/mech_legs_idle.png" id="3_bnkg0"]
@@ -76,9 +76,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_py2mg"]
 size = Vector2(291, 333)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_08i7v"]
-size = Vector2(307.5, 163)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_n5qj6"]
 animations = [{
 "frames": [{
@@ -123,9 +120,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0jgp"]
-size = Vector2(422, 184.5)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_k2vyh"]
 animations = [{
 "frames": [{
@@ -160,11 +154,12 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.064, 0.064)
 collision_mask = 30
 script = ExtResource("1_42v5j")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
 [node name="Gun" type="CharacterBody2D" parent="."]
@@ -172,11 +167,9 @@ position = Vector2(-41.35, -208.265)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gun"]
 position = Vector2(76.25, 0)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_3ey14")
 
 [node name="GunSprite" type="AnimatedSprite2D" parent="Gun"]
-scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_m6v2u")
 animation = &"idle"
 offset = Vector2(65.585, 30.285)
@@ -184,7 +177,6 @@ script = ExtResource("5_1ljk5")
 
 [node name="ShootMark" type="Marker2D" parent="Gun"]
 position = Vector2(190, 0)
-scale = Vector2(1, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6fmwu")
@@ -198,13 +190,7 @@ shape = SubResource("RectangleShape2D_py2mg")
 [node name="Legs" type="CharacterBody2D" parent="."]
 collision_mask = 30
 
-[node name="Collision2D" type="CollisionShape2D" parent="Legs"]
-position = Vector2(-36.75, 165.5)
-scale = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_08i7v")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Legs"]
-scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_n5qj6")
 animation = &"move"
 frame_progress = 0.732056
@@ -213,13 +199,7 @@ script = ExtResource("5_1ljk5")
 [node name="Arms" type="CharacterBody2D" parent="."]
 collision_mask = 30
 
-[node name="Collision2D" type="CollisionShape2D" parent="Arms"]
-position = Vector2(5, -84.25)
-scale = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_i0jgp")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Arms"]
-scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_k2vyh")
 animation = &"idle"
 script = ExtResource("5_1ljk5")

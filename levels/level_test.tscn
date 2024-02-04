@@ -1,9 +1,13 @@
+
 [gd_scene load_steps=14 format=3 uid="uid://cctl7ch60onog"]
+
 
 [ext_resource type="Texture2D" uid="uid://cibcbofuo1xf8" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Props/Factory_Props.png" id="1_q1vnu"]
 [ext_resource type="Texture2D" uid="uid://dc2bmahbbq22" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Factory/Terrain/Factory_Terrain_Tileset.png" id="2_s22ru"]
 [ext_resource type="Texture2D" uid="uid://bqcjmplwshs1w" path="res://bitmaps/tilesets/Multi_Platformer_Tileset/Stronghold/Terrain/Stronghold_Terrain_Tileset.png" id="3_goas6"]
 [ext_resource type="PackedScene" uid="uid://dgtxj7b2xo0qt" path="res://entities/player.tscn" id="4_86j4t"]
+[ext_resource type="PackedScene" uid="uid://cabf8skohkgn4" path="res://entities/spikes.tscn" id="4_uwlja"]
+[ext_resource type="PackedScene" uid="uid://cyvswh3b0par" path="res://entities/enemy_crawler.tscn" id="5_42dw7"]
 [ext_resource type="PackedScene" uid="uid://xxm0prcmpopn" path="res://entities/enemy_fly_bug.tscn" id="5_v7vit"]
 [ext_resource type="PackedScene" uid="uid://sa6kj6fmdcos" path="res://entities/pickup_health.tscn" id="6_ydpco"]
 
@@ -850,7 +854,7 @@ sources/2 = SubResource("TileSetAtlasSource_n56xv")
 
 [node name="Ground" type="Node2D" parent="."]
 
-[node name="TileMap2" type="TileMap" parent="Ground"]
+[node name="TileMap" type="TileMap" parent="Ground"]
 tile_set = SubResource("TileSet_lfeqs")
 format = 2
 layer_0/name = "Background"
@@ -860,13 +864,23 @@ layer_1/tile_data = PackedInt32Array(65528, 196609, 0, 65529, 1, 0, 65530, 65537
 layer_2/name = "Foreground"
 layer_2/tile_data = PackedInt32Array()
 
+[node name="Spikes" type="Node2D" parent="Ground"]
+
+[node name="Spikes" parent="Ground/Spikes" instance=ExtResource("4_uwlja")]
+position = Vector2(148, 1)
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="EnemyFlyBug" parent="Enemies" instance=ExtResource("5_v7vit")]
-position = Vector2(-258, -245)
+position = Vector2(-180, -68)
+
+[node name="EnemyCrawler" parent="Enemies" instance=ExtResource("5_42dw7")]
+position = Vector2(-100, -120)
+rotation = -1.5708
+scale = Vector2(0.93, 0.93)
 
 [node name="Player" parent="." instance=ExtResource("4_86j4t")]
-position = Vector2(38, -64)
+position = Vector2(-29, -32)
 
 [node name="Pickups" type="Node2D" parent="."]
 
