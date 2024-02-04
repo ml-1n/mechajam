@@ -25,6 +25,11 @@ var can_dash
 var can_move
 var can_jump
 var can_damage
+var jumping
+
+var has_arms
+var has_legs
+var has_gun
 
 var hud
 
@@ -34,6 +39,11 @@ func _ready():
 	can_move = true
 	can_jump = true
 	can_damage = true
+	
+	has_arms = true
+	has_legs = true
+	has_gun = true
+	
 	health = MAX_HEALTH
 	
 	hud = get_tree().current_scene.get_node("HUD")
@@ -42,12 +52,26 @@ func _ready():
 func _physics_process(delta):
 	var direction = get_direction()
 	
+
+	
 	# jumping input
-	if Input.is_action_just_pressed("action_jump") && is_on_floor() && can_jump:
+	if Input.is_action_just_pressed("action_jump") && is_on_floor() && can_jump && has_legs:
 		velocity.y += -JUMP_SPEED
+		jumping = true
+		$LegsSprite.play("jump")
+		$ArmsSprite.play("jump")
+		$BodySprite.play("jump")
+		
+	# landing on jump
+	elif is_on_floor() && jumping:
+		$LegsSprite.play("land")
+		$ArmsSprite.play("land")
+		$BodySprite.play("land")
+		jumping = false
+
 	
 	# shooting input		
-	if Input.is_action_just_pressed("action_shoot") && can_shoot:
+	if Input.is_action_just_pressed("action_shoot") && can_shoot && has_gun:
 		shoot()
 	
 	# dash input
@@ -55,15 +79,18 @@ func _physics_process(delta):
 		dash()
 	
 	# movement input
-	if direction && can_move:
+	if direction && can_move && has_legs:
 		velocity.x = lerp(velocity.x, direction.x * MOVE_SPEED, ACCELERATION)
 	
 	else:
 		velocity.x = lerp(velocity.x, 0.0, FRICTION)
 		
+	# TODO Mouse input
+		
 	# process gravity
 	if !is_on_floor():
 		velocity.y += gravity * delta
+
 	
 	move_and_slide()
 	
@@ -74,7 +101,22 @@ func _unhandled_input(event):
 		if Input.is_action_just_pressed("ui_cancel"):
 			get_tree().quit()
 	
+func check_limbs():
+	if !has_gun:
+		$Gun.disabled = true
+		
+	if !has_legs:
+		$Legs.disabled = true
+		
+	if !has_arms:
+		$Arms.disabled = false
+		
 func shoot():
+	
+	# end if no gun
+	if !has_gun:
+		return
+	
 	var projectile = projectile_type.instantiate()
 	
 	var origin = global_position
@@ -95,6 +137,10 @@ func shoot():
 
 # TODO clamp/normalize velocity (due to gravity), add iframes
 func dash():
+	
+	# in case we still have legs
+	#if !can_dash:
+		#return
 	var direction = get_direction()
 	
 	velocity = direction * (MOVE_SPEED * DASH_MULT)
