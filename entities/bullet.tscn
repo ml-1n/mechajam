@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bddexdv71f7c3"]
 
 [ext_resource type="Script" path="res://entities/bullet.gd" id="1_ma33e"]
-[ext_resource type="Texture2D" uid="uid://u0doxl3102oo" path="res://bitmaps/Sasha stuff/projectiles/projectile_energy_ball.png" id="2_kp31h"]
+[ext_resource type="Texture2D" uid="uid://dqaqhmc3udqic" path="res://bitmaps/Sasha stuff/projectiles/projectile_energy_ball.png" id="2_kp31h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3vand"]
 size = Vector2(8, 8)
