@@ -74,35 +74,27 @@ func move_checks():
 	# then turn around
 	var for_mark_tile = tile_map.local_to_map(tile_map.to_local(for_mark.global_position))
 	var for_data = tile_map.get_cell_tile_data(1, for_mark_tile)
-	print("for tile")
-	print(for_data)
-	
+
 	var fall_mark_tile = tile_map.local_to_map(tile_map.to_local(fall_mark.global_position))
 	var fall_data = tile_map.get_cell_tile_data(1, fall_mark_tile)
-	print("fall tile")
-	print(fall_data)
 	
 	if for_data || !fall_data:
 		print("turning")
 		turn_around()
-		print("fall marker")
-		print(fall_mark.position)
-		print("forw marker")
-		print(for_mark.position)
 	# Then check if we're about to fall off a ledge
 	# var the fall marker's global position
 	# compare it to the tile at that global position
 	# if that tile has collision? Maybe if it is NOT on layer 1, the playground layer
 	# then turn around
 
-#okay why is it not working
-# its not finding the tile on playground layer, but it IS finding the tiles on Background layer
-# why? lets try tracking the position of the marks?
 
 func turn_around():
 	for_mark.position = for_mark.position * Vector2(-1,1)
 	fall_mark.position = fall_mark.position * Vector2(-1,1)
-	anim_sprite.flip_h
+	if anim_sprite.flip_h:
+		anim_sprite.flip_h = false
+	else:
+		anim_sprite.flip_h = true
 
 # ATTACKING
 

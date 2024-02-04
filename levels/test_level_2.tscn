@@ -864,4 +864,12 @@ position = Vector2(-258, -245)
 [node name="EnemyCrawler" parent="Enemies" instance=ExtResource("6_7k040")]
 position = Vector2(-429, -13)
 
+[node name="EnemyCrawler2" parent="Enemies" instance=ExtResource("6_7k040")]
+position = Vector2(-97, -119)
+rotation = -1.57079
+
+[node name="EnemyCrawler3" parent="Enemies" instance=ExtResource("6_7k040")]
+position = Vector2(211, -127)
+rotation = 3.14159
+
 [node name="HUD" parent="." instance=ExtResource("6_08y6y")]

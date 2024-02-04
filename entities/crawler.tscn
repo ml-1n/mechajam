@@ -51,7 +51,7 @@ position = Vector2(5.96046e-08, 3)
 scale = Vector2(1.1545, 1.1545)
 sprite_frames = SubResource("SpriteFrames_ys4i2")
 animation = &"crawl"
-frame_progress = 0.992298
+frame_progress = 0.720956
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ish02")
