@@ -9,18 +9,19 @@ const MAX_HEALTH = 100
 @export var MOVE_SPEED = 40
 
 @export var player: Node2D
+@export var projectile_type = load("res://entities/goo_bullet.tscn")
 @onready var tile_map:= $"../../Ground/TileMap" as TileMap 
 
 @onready var anim_sprite = $AnimatedSprite2D
 @onready var attack_timer = $AttackTimer
 @onready var waiting = false
-@onready var harmful = false
 @onready var enemy = true
 @onready var gravity = 50
 
 @onready var dow_mark = $DownMarker
 @onready var for_mark = $ForwardMarker
 @onready var fall_mark = $FallMarker
+@onready var eye_mark = $EyeMarker
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -61,7 +62,7 @@ func crawl(delta):
 		anim_sprite.play("crawl")
 		move_checks()
 		velocity += global_position.direction_to(for_mark.global_position).normalized() * MOVE_SPEED
-		move_and_slide()
+	move_and_slide()
 
 func apply_gravity():
 	velocity = global_position.direction_to(dow_mark.global_position).normalized() * gravity
@@ -100,18 +101,38 @@ func turn_around():
 
 func check_attack():
 	# Checks if it can attack, have to be in range of the player
-	pass
+	# Have to have line of sight. Gonna use raycasting
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(eye_mark.global_position, player.position)
+	query.exclude = [self]
+	var result = space_state.intersect_ray(query)
+	print(result.collider)
+	if result.collider == player && waiting == false:
+		anim_sprite.play("ready")
+		waiting = true
+		$AttackTimer.start()
 
 
 func attack():
 	#makes a timer, during this time it is attacking
-	get_tree().create_timer(ATTACK_LENGTH).timeout.connect(func(): waiting = false ; harmful = false )
-	# Changes animation to the bitey sprite
-	anim_sprite.play("bite")
-	# Sets velocity to charge at player at high speed
-	velocity = position.direction_to(player.global_position) * 200
-	#if collides with player, damage
-	harmful = true
+	get_tree().create_timer(ATTACK_LENGTH).timeout.connect(func(): waiting = false )
+	# Changes animation to the shootey sprite
+	anim_sprite.play("squirt")
+	# Creates squirt projectile
+	var projectile = projectile_type.instantiate()
+	
+	var origin = eye_mark.global_position
+	var target = player.global_position
+	var direction = origin.direction_to(target)
+	
+	projectile.position = global_position
+	projectile.direction = direction
+	projectile.rotation = direction.angle()
+	projectile.creator = self
+	
+	# rotate projectile to be pointed at player. Maybe pick a point along the ray?
+	
+	get_parent().call_deferred("add_child", projectile)
 
 # DAMAGE AND DYING
 

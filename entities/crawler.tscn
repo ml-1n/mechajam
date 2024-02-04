@@ -26,12 +26,17 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_5oifl")
+}],
+"loop": true,
+"name": &"ready",
+"speed": 5.0
 }, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("4_5tyhw")
 }],
 "loop": true,
-"name": &"shoot",
+"name": &"squirt",
 "speed": 5.0
 }]
 
@@ -50,8 +55,7 @@ script = ExtResource("1_uf7pf")
 position = Vector2(5.96046e-08, 3)
 scale = Vector2(1.1545, 1.1545)
 sprite_frames = SubResource("SpriteFrames_ys4i2")
-animation = &"crawl"
-frame_progress = 0.720956
+animation = &"squirt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ish02")
@@ -69,5 +73,8 @@ position = Vector2(-20, 0)
 
 [node name="FallMarker" type="Marker2D" parent="."]
 position = Vector2(-23, 23)
+
+[node name="EyeMarker" type="Marker2D" parent="."]
+position = Vector2(-4, -8)
 
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
